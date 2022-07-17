@@ -1,8 +1,6 @@
 Semiring Einsum
 ===============
 
-This is an extensible PyTorch implementation of
-[einsum](https://pytorch.org/docs/master/generated/torch.einsum.html)
-that supports multiple semirings.
+This is an implementation of einsum that supports multiple semirings. It is compatible wtih any library that conforms to the Python array API standard.
 
-[Read the full documentation here.](https://bdusell.github.io/semiring-einsum/)
+This is a reimplementation of [https://github.com/bdusell/semiring-einsum](Brian DuSell)'s library and is almost entirely his own work.
