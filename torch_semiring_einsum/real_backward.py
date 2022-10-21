@@ -41,8 +41,9 @@ def real_einsum_backward(
     grad_size = tuple(grad.size())
     if grad_size != output_size:
         raise ValueError(
-            'size of gradient {} does not match expected size {}'.format(
-                grad_size, output_size))
+            f'size of gradient {grad_size} does not match expected size {output_size}'
+        )
+
     arg_grads = []
     for i, (arg, arg_needs_grad, arg_reduce_info) in enumerate(zip(
             args, needs_grad, equation.reduce_others_to_input)):
