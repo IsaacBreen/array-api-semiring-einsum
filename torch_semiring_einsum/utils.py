@@ -13,14 +13,7 @@ def max_in_place(a, b):
     torch.max(a, b, out=a)
 
 def sum_block(a, dims):
-    if dims:
-        # `dim` was first allowed to be a tuple in PyTorch 0.4.1.
-        return torch.sum(a, dim=dims)
-    else:
-        # This is an edge case where PyTorch returns a bad result.
-        # See https://github.com/pytorch/pytorch/issues/29137
-        # On the plus side, this avoids creating an unnecessary copy of `a`.
-        return a
+    return torch.sum(a, dim=dims) if dims else a
 
 # Define the max_block function differently depending on the version of
 # PyTorch.
@@ -30,10 +23,7 @@ if hasattr(torch, 'amax'):
         # Unlike `max`, `amax` supports reducing multiple dimensions at once.
         # But `amax(dim=())` reduces all dimensions, which we override to
         # reduce no dimensions. The same issue occurs with `torch.sum` above.
-        if dims:
-            return torch.amax(a, dim=dims)
-        else:
-            return a
+        return torch.amax(a, dim=dims) if dims else a
 else:
     def max_block(a, dims):
         # Fall back to reducing each dimension one at a time using `max`.

@@ -170,9 +170,11 @@ def adjust_size(arg, size):
     # clone of the input (the output must always be a copy of the input).
     if arg.dim() == 0:
         return arg.clone()
-    repeat_size = []
-    for output_size, arg_size in zip(size, arg.size()):
-        repeat_size.append(output_size if arg_size == 1 else 1)
+    repeat_size = [
+        output_size if arg_size == 1 else 1
+        for output_size, arg_size in zip(size, arg.size())
+    ]
+
     # NOTE: Important! This call to .repeat() creates a copy of the first
     # tensor used to compute each product, so the subsequent in-place
     # operations will not affect the original tensor.

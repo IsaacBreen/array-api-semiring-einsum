@@ -218,9 +218,11 @@ class TestSemiringEinsum(unittest.TestCase):
         arg_grads = log_einsum_backward(
             compile_equation(EQUATION_STR),
             args,
-            [True for arg in args],
+            [True for _ in args],
             grad,
-            block_size=3)
+            block_size=3,
+        )
+
         for arg_grad, size in zip(arg_grads, SIZES):
             self.assertEqual(arg_grad.size(), size)
             self.assertTrue(torch.all(torch.isnan(arg_grad)).item(), 'gradient should be nan')
@@ -228,10 +230,12 @@ class TestSemiringEinsum(unittest.TestCase):
         arg_grads = log_einsum_backward(
             compile_equation(EQUATION_STR),
             args,
-            [True for arg in args],
+            [True for _ in args],
             grad,
             block_size=3,
-            grad_of_neg_inf=0.0)
+            grad_of_neg_inf=0.0,
+        )
+
         for arg_grad, size in zip(arg_grads, SIZES):
             numpy.testing.assert_allclose(arg_grad, torch.zeros(size, device=self.device))
 

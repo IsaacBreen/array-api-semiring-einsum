@@ -56,10 +56,7 @@ def log_einsum_forward(
             results.append(max_values)
         if return_sumexpsub:
             results.append(sumexpsub)
-        if len(results) == 1:
-            return results[0]
-        else:
-            return tuple(results)
+        return results[0] if len(results) == 1 else tuple(results)
 
     return semiring_einsum_forward(equation, args, block_size, callback)
 

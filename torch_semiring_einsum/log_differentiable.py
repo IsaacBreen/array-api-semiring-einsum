@@ -43,14 +43,8 @@ class LogEinsumFunction(torch.autograd.Function):
     def backward(ctx, grad):
         saved_tensors = list(ctx.saved_tensors)
         needs_grad = ctx.needs_input_grad[5:]
-        if ctx.save_sumexpsub:
-            saved_sumexpsub = saved_tensors.pop()
-        else:
-            saved_sumexpsub = None
-        if ctx.save_max:
-            saved_max = saved_tensors.pop()
-        else:
-            saved_max = None
+        saved_sumexpsub = saved_tensors.pop() if ctx.save_sumexpsub else None
+        saved_max = saved_tensors.pop() if ctx.save_max else None
         args = saved_tensors
         input_grads = log_einsum_backward(
             ctx.equation,

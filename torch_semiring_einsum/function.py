@@ -56,8 +56,4 @@ def combine(
     return result
 
 def take_kwargs(keys, kwargs):
-    result = {}
-    for k in keys:
-        if k in kwargs:
-            result[k] = kwargs.pop(k)
-    return result
+    return {k: kwargs.pop(k) for k in keys if k in kwargs}

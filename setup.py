@@ -10,7 +10,7 @@ with open('pyproject.toml') as fin:
         line = line.rstrip('\n')
         m = SECTION_RE.match(line)
         if m is not None:
-            section = m.group(1)
+            section = m[1]
             pyproject[section] = {}
         else:
             m = FIELD_RE.match(line)
@@ -21,7 +21,7 @@ with open('pyproject.toml') as fin:
 VERSION_RE = re.compile(r'^\^(.*)$')
 dependencies = []
 for package_name, version_str in sorted(pyproject['tool.poetry.dependencies'].items(), key=lambda x: x[0]):
-    version = VERSION_RE.match(version_str).group(1)
+    version = VERSION_RE.match(version_str)[1]
     if package_name == 'python':
         python_version = version
     else:
@@ -49,6 +49,6 @@ setuptools.setup(
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Scientific/Engineering :: Mathematics',
     ],
-    python_requires='>=' + python_version,
-    install_requires=[name + '>=' + version for name, version in dependencies]
+    python_requires=f'>={python_version}',
+    install_requires=[f'{name}>={version}' for name, version in dependencies],
 )

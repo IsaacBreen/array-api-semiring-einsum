@@ -22,9 +22,8 @@ class Equation:
             for i, j in loc_list[1:]:
                 if args[i].size(j) != size:
                     raise ValueError(
-                        'dimension {} of argument {} does not match '
-                        'dimension {} of argument {}'.format(
-                            j, i, loc_list[0][1], loc_list[0][0]))
+                        f'dimension {j} of argument {i} does not match dimension {loc_list[0][1]} of argument {loc_list[0][0]}'
+                    )
 
     def get_sizes(self, args, variables):
         result = []
@@ -154,7 +153,7 @@ class LookupInfo:
         index = [_COLON] * arg.dim()
         for source_index, dest_index in self.index_map:
             index[dest_index] = var_values[source_index]
-        for i in range(self.num_extra_vars):
+        for _ in range(self.num_extra_vars):
             index.append(None)
         return arg[tuple(index)].permute(self.permutation)
 
